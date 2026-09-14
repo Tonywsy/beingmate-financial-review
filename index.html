@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+<head>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>贝因美 2024 财报拆解 · 婴配粉成本结构</title>
+<script src='echarts.min.js'></script>
+<style>
+  :root{ --blue:#1A4FA0; --navy:#0A1E3F; --ink:#11203a; --muted:#6b7a94; --line:#e3eaf5; --warn:#E8852B; --green:#2E9E6B; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'PingFang SC','Microsoft YaHei',sans-serif;color:var(--ink);background:#f4f7fc;line-height:1.6}
+  .hero{background:linear-gradient(135deg,var(--blue),var(--navy));color:#fff;padding:38px 20px 30px;text-align:center}
+  .hero .badge{display:inline-block;border:1px solid rgba(255,255,255,.5);border-radius:999px;padding:4px 14px;font-size:14px;opacity:.92}
+  .hero h1{font-size:28px;margin:14px 0 6px}
+  .hero p{opacity:.9;font-size:15px}
+  .wrap{max-width:880px;margin:0 auto;padding:18px 16px 50px}
+  .section{background:#fff;border-radius:14px;padding:20px;margin:16px 0;box-shadow:0 2px 10px rgba(20,40,80,.06)}
+  .section h2{font-size:20px;color:var(--blue);margin-bottom:8px}
+  .section-desc{color:var(--muted);font-size:14px;margin-bottom:12px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+  .card{background:#fff;border-radius:12px;padding:14px;border-top:3px solid var(--blue);box-shadow:0 1px 6px rgba(20,40,80,.08)}
+  .card .k{font-size:13px;color:var(--muted)}
+  .card .v{font-size:26px;font-weight:800;margin-top:4px;font-variant-numeric:tabular-nums}
+  .card.warn .v{color:#d23b3b}.card.green .v{color:var(--green)}
+  .bar-box,.bar-box-tall{width:100%;height:340px}
+  .chart-s{font-size:13px;color:var(--muted);margin-top:10px}
+  .callout{border-left:4px solid var(--warn);background:#fff7ee;padding:12px 14px;border-radius:8px;font-size:14px;margin-top:12px}
+  .callout b{color:var(--warn)}
+  .src a{color:var(--blue);word-break:break-all}
+  .src li{margin:6px 0;font-size:13px}
+  .tag{display:inline-block;font-size:12px;padding:2px 8px;border-radius:6px;margin-right:6px}
+  .tag.green{background:#e6f6ee;color:var(--green)}
+  .tag.gray{background:#eef1f6;color:var(--muted)}
+  .tag.warn{background:#fff1e2;color:var(--warn)}
+  footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
+  .note{font-size:12px;color:var(--muted);margin-top:8px;border-top:1px dashed var(--line);padding-top:8px}
+</style>
+</head>
+<body>
+
+<div class='hero'>
+  <div class='badge'>葵爸 · 财报拆解</div>
+  <h1>贝因美 2024 财报拆解</h1>
+  <p>国产中端婴配粉 · 数据来自交易所公开年报</p>
+</div>
+
+<div class='wrap'>
+
+  <!-- 关键数卡片 -->
+  <div class='section'>
+    <h2>一图看懂关键数（2024 年报审计）</h2>
+    <div class='cards'>
+      <div class='card'><div class='k'>综合毛利率</div><div class='v'>42.95%</div></div>
+      <div class='card'><div class='k'>营业收入</div><div class='v'>27.73亿</div></div>
+      <div class='card green'><div class='k'>营收同比</div><div class='v'>+9.7%</div></div>
+      <div class='card'><div class='k'>奶粉类占比</div><div class='v'>90.43%</div></div>
+      <div class='card'><div class='k'>奶粉类毛利率</div><div class='v'>46.14%</div></div>
+      <div class='card green'><div class='k'>归母净利</div><div class='v'>1.03亿</div></div>
+    </div>
+    <p class='note'>🟢 数据来源：贝因美（002570）2024 年年报（巨潮披露）、2024 年度财务决算报告（新浪财经）。营收 27.73 亿、营业成本 15.82 亿、综合毛利率 42.95% 均为审计数。</p>
+  </div>
+
+  <!-- 核心图1：每100元拆解 -->
+  <div class='section'>
+    <h2>核心一图：你付的出厂 100 元，厂家怎么分</h2>
+    <p class='section-desc'>按 2024 年报费率还原——这是<b>出厂价</b>结构（集团全业务加权平均），<b>不是超市零售价</b>；贝因美 90% 收入来自奶粉类，故可近似看作婴配粉主体结构，但年报<b>未单列纯婴配粉</b>。</p>
+    <div id='chartBreak' class='bar-box'></div>
+    <div class='chart-s'>还原：生产成本 57 元 + 销售费用 26 元 + 管理费用 7 元 + 研发费用 1 元 + 财务费用 2 元 + 净利润 4 元 + 其他税费/减值 3 元。营销+管理费用约为研发投入的 <b>35 倍</b>。</div>
+  </div>
+
+  <!-- 口径红线 -->
+  <div class='callout'>
+    <b>口径红线：</b>① 以上为<b>报表出厂口径</b>，非终端零售价，请勿换算成「300 块里成本多少」；② 贝因美年报披露到「<b>奶粉类</b>」级别（占营收 90.43%，毛利率 46.14%），<b>未单列纯婴幼儿配方奶粉</b>——奶粉类含婴配粉 + 儿童粉等，本页以奶粉类近似婴配粉主体；③ 集团加权平均 ≠ 单品；④ 利润率 ≠ 产品质量；⑤ 本页不构成任何购买或投资推荐。
+  </div>
+
+  <!-- 图2：毛利率对比 -->
+  <div class='section'>
+    <h2>飞鹤 vs 贝因美：毛利定位差</h2>
+    <p class='section-desc'>同为上市婴配粉企业，贝因美综合毛利率比飞鹤低约 23 个百分点，折射「高端 vs 中端平价」的定价与成本结构差异。</p>
+    <div id='chartGM' class='bar-box'></div>
+    <div class='chart-s'>🟢 飞鹤 2024 年报（婴配粉分部毛利率 71.3%、综合 66.3%）；🟢 贝因美 2024 年报（奶粉类 46.14%、综合 42.95%）。飞鹤数据见已发布证据页。</div>
+  </div>
+
+  <!-- 图3：零售价区间 -->
+  <div class='section'>
+    <h2>多平台零售价（家长视角）</h2>
+    <p class='section-desc'>贝因美主流系列 800g 段位的到手价区间，来自公开比价平台（非企业披露，仅供横向感知）。</p>
+    <div id='chartPrice' class='bar-box'></div>
+    <div class='chart-s'>🟠 公开比价（什么值得买 / 慢慢买，2025 年券后到手价）：爱加 3 段约 220 元、菁爱 3 段约 149 元、菁爱 A2 3 段约 188 元、经典优选 1 段约 200 元。同段位价差主要差在渠道与营销，裸生产成本差异远小于终端价差。</div>
+  </div>
+
+  <!-- 图4：费用率结构 -->
+  <div class='section'>
+    <h2>费用去哪了：研发占比极低</h2>
+    <p class='section-desc'>贝因美 2024 年三项费用率：销售 26.4% / 管理 7.5% / 研发仅 0.6% / 财务 1.8%。研发费用率不足 1%，是「平价中端」定位的典型财务烙印。</p>
+    <div id='chartCost' class='bar-box'></div>
+    <div class='chart-s'>🟢 数据来源：2024 年报利润表。研发费用 0.17 亿、占营收 0.6%；对比飞鹤研发费用未单列（计行政开支，估计约 2-3%）。</div>
+  </div>
+
+  <!-- 来源区 -->
+  <div class='section'>
+    <h2>数据来源</h2>
+    <p class='section-desc'>核心数据均来自交易所披露原文，可点击复核。</p>
+    <ul class='src'>
+      <li><span class='tag green'>交易所原文</span><a href='https://www.cninfo.com.cn/' target='_blank' rel='noopener'>巨潮网 · 贝因美 002570 2024 年年度报告 / 财务决算报告</a></li>
+      <li><span class='tag gray'>可读快照</span><a href='https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=11059974' target='_blank' rel='noopener'>新浪财经 · 贝因美 2024 年度财务决算报告</a></li>
+      <li><span class='tag gray'>公开报道</span><a href='https://newzzbcx.cs.com.cn/cxnews.html?name=new20250502132621wljqynzy' target='_blank' rel='noopener'>中国证券报 · 贝因美 2024 年报解读（分产品毛利率）</a></li>
+      <li><span class='tag warn'>公开比价</span><a href='https://pinpai.smzdm.com/11/youhui/p241' target='_blank' rel='noopener'>什么值得买 · 贝因美品牌专区（到手价）</a> / <a href='https://cu.manmanbuy.com/discuxiao_515300884.aspx' target='_blank' rel='noopener'>慢慢买 · 贝因美菁爱 3 段</a></li>
+      <li><span class='tag green'>对照样本</span><a href='https://tonywsy.github.io/shengyuan-financial-review/' target='_blank' rel='noopener'>圣元婴配粉成本拆解证据页（同系列）</a></li>
+    </ul>
+  </div>
+
+</div>
+
+<footer>本页为家长消费科普，数据来自公开年报与公开比价，非投资建议。口径以交易所原文为准。</footer>
+
+<script>
+// ===== 图1：每100元出厂营收拆解（集团口径，费率四舍五入还原）=====
+var breakEl = echarts.init(document.getElementById('chartBreak'));
+var optBreak = {
+  tooltip:{trigger:'axis', axisPointer:{type:'shadow'},
+    formatter:function(p){var s=p[0].name+'<br/>';p.forEach(function(i){s+=i.seriesName+': '+i.value+' 元<br/>';});return s;}},
+  legend:{data:['生产成本','销售费用','管理费用','研发费用','财务费用','净利润','其他税费/减值']},
+  grid:{left:60,right:20,top:50,bottom:30},
+  xAxis:{type:'value', max:100, name:'元'},
+  yAxis:{type:'category', data:['每100元营收']},
+  series:[
+    {name:'生产成本', type:'bar', stack:'t', data:[57], itemStyle:{color:'#3B6FD0'}},
+    {name:'销售费用', type:'bar', stack:'t', data:[26], itemStyle:{color:'#E8852B'}},
+    {name:'管理费用', type:'bar', stack:'t', data:[7], itemStyle:{color:'#9AA7BE'}},
+    {name:'研发费用', type:'bar', stack:'t', data:[1], itemStyle:{color:'#2E9E6B'}},
+    {name:'财务费用', type:'bar', stack:'t', data:[2], itemStyle:{color:'#C9B23B'}},
+    {name:'净利润', type:'bar', stack:'t', data:[4], itemStyle:{color:'#1A4FA0'}},
+    {name:'其他税费/减值', type:'bar', stack:'t', data:[3], itemStyle:{color:'#D9E2F0'}}
+  ]
+};
+breakEl.setOption(optBreak);
+window.addEventListener('resize', function(){ breakEl.resize(); });
+
+// ===== 图2：毛利率对比 =====
+var gmEl = echarts.init(document.getElementById('chartGM'));
+var optGM = {
+  tooltip:{trigger:'axis', axisPointer:{type:'shadow'}},
+  grid:{left:60,right:20,top:30,bottom:30},
+  xAxis:{type:'category', data:['飞鹤 综合','飞鹤 婴配粉','贝因美 综合','贝因美 奶粉类']},
+  yAxis:{type:'value', max:80, name:'%'},
+  series:[{type:'bar', barWidth:'45%',
+    data:[{value:66.3,itemStyle:{color:'#1A4FA0'}},{value:71.3,itemStyle:{color:'#3B6FD0'}},
+          {value:42.95,itemStyle:{color:'#E8852B'}},{value:46.14,itemStyle:{color:'#F0A857'}}],
+    label:{show:true,position:'top',formatter:'{c}%'}}]
+};
+gmEl.setOption(optGM);
+window.addEventListener('resize', function(){ gmEl.resize(); });
+
+// ===== 图3：零售价区间（🟠 公开比价）=====
+var priceEl = echarts.init(document.getElementById('chartPrice'));
+var optPrice = {
+  tooltip:{trigger:'axis', axisPointer:{type:'shadow'}},
+  grid:{left:60,right:20,top:30,bottom:30},
+  xAxis:{type:'category', data:['爱加 3段','菁爱 3段','菁爱A2 3段','经典优选 1段']},
+  yAxis:{type:'value', name:'元/罐(800g)'},
+  series:[{type:'bar', barWidth:'45%',
+    data:[220,149,188,200],
+    itemStyle:{color:'#E8852B'},
+    label:{show:true,position:'top',formatter:'{c}元'}}]
+};
+priceEl.setOption(optPrice);
+window.addEventListener('resize', function(){ priceEl.resize(); });
+
+// ===== 图4：费用率结构 =====
+var costEl = echarts.init(document.getElementById('chartCost'));
+var optCost = {
+  tooltip:{trigger:'axis', axisPointer:{type:'shadow'}},
+  grid:{left:60,right:20,top:30,bottom:30},
+  xAxis:{type:'category', data:['销售费用','管理费用','研发费用','财务费用']},
+  yAxis:{type:'value', name:'% of 营收'},
+  series:[{type:'bar', barWidth:'45%',
+    data:[{value:26.4,itemStyle:{color:'#E8852B'}},{value:7.5,itemStyle:{color:'#9AA7BE'}},
+          {value:0.6,itemStyle:{color:'#2E9E6B'}},{value:1.8,itemStyle:{color:'#C9B23B'}}],
+    label:{show:true,position:'top',formatter:'{c}%'}}]
+};
+costEl.setOption(optCost);
+window.addEventListener('resize', function(){ costEl.resize(); });
+
+// 部署前务必跑 JS 语法自检：node 以 new Function(内联script) 解析，确认 ALL_OK 再上传，
+// 防止双引号截断字符串导致整页崩溃。本页所有 JS 字符串均用单引号。
+</script>
+</body>
+</html>
